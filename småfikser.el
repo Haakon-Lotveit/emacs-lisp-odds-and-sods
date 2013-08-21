@@ -12,6 +12,9 @@
 ;; Egne småting
 (global-set-key "\C-x\C-g" 'goto-line)
 (global-set-key "\C-x\C-o" 'other-window)
+(global-set-key "\C-." 'dabbrev-expand)
+
+
 (setq x-select-enable-clipboard 't)
 (setq visible-bell 1)
 (transient-mark-mode 1) ; just in case someone turns this off somewhere before init.el is loaded
