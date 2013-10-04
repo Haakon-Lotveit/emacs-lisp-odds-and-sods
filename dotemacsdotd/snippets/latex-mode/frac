@@ -1,0 +1,5 @@
+# contributor: Haakon Løtveit <haakon.k.lotveit@gmail.com>
+# name: \frac{numerator}{nominator}
+# key: frac
+# --
+\frac{${1:numerator}}{${2:nominator}}$0

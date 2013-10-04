@@ -1,0 +1,20 @@
+;;Cleaned up init.el file for Haakon Løtveit, March 2012
+
+(require 'cl)
+(global-linum-mode 1)
+
+;; Different stuff I've written myself
+(add-to-list 'load-path "~/.emacs.d/egne")
+(load-library "init-egne")
+
+(setq inhibit-splash-screen 't)
+;(server-start)
+
+;; Removes the *ESS* buffer after startup.
+(if (get-buffer "*ESS*") (kill-buffer "*ESS*"))
+
+(load (expand-file-name "~/quicklisp/slime-helper.el"))
+;; Replace "sbcl" with the path to your implementation
+(setq inferior-lisp-program "/usr/bin/sbcl")
+
+

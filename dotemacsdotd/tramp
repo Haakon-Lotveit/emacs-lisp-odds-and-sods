@@ -1,0 +1,44 @@
+;; -*- emacs-lisp -*- <13/09/20 11:13:50 /home/haakon/.emacs.d/tramp>
+;; Tramp connection history.  Don't change this file.
+;; You can delete it, forcing Tramp to reapply the checks.
+
+((["sudo" "root" "Haakon-Desktop" nil]
+  ("uname" "Linux 3.2.0-26-generic")
+  ("test" "test")
+  ("remote-path"
+   ("/bin" "/usr/bin" "/usr/sbin" "/usr/local/bin"))
+  ("remote-shell" "/bin/sh")
+  ("perl-file-spec" t)
+  ("perl-cwd-realpath" t)
+  ("perl" "\\perl")
+  ("readlink" "\\readlink")
+  ("stat" "\\stat")
+  ("file-exists" "test -e")
+  ("id" "/usr/bin/id")
+  ("gid-integer" 0)
+  ("uid-integer" 0)
+  ("local-encoding" base64-encode-region)
+  ("local-decoding" base64-decode-region)
+  ("remote-encoding" "base64")
+  ("remote-decoding" "base64 -d -i"))
+ (["sudo" "root" "haakon-laptop" nil]
+  ("uname" "Linux 3.8.0-30-generic")
+  ("test" "test")
+  ("remote-path"
+   ("/bin" "/usr/bin" "/usr/sbin" "/usr/local/bin"))
+  ("remote-shell" "/bin/sh")
+  ("busybox" nil)
+  ("perl-file-spec" t)
+  ("perl-cwd-realpath" t)
+  ("perl" "\\perl")
+  ("readlink" "\\readlink")
+  ("stat" "\\stat")
+  ("file-exists" "test -e")
+  ("id" "/usr/bin/id")
+  ("gid-integer" 0)
+  ("uid-integer" 0)
+  ("ls" "/bin/ls --color=never")
+  ("local-encoding" base64-encode-region)
+  ("local-decoding" base64-decode-region)
+  ("remote-encoding" "base64")
+  ("remote-decoding" "base64 -d -i")))

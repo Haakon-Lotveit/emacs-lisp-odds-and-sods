@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: ^{superscript}
+# key: sub
+# --
+_{${1:subscript}}
+

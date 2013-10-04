@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: main-stub
+# key: main
+# --
+public static void main(String[] args){
+$0
+}

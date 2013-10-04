@@ -1,0 +1,6 @@
+# contributor: Haakon Løtveit <haakon.k.lotveit@gmail.com>
+# name: \lim \limits_{expr}
+# key: lim
+# --
+\lim \limits_{${1:expr}} $0
+
