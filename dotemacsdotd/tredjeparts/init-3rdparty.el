@@ -20,4 +20,7 @@
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 (ac-config-default)
 
+;; Adds jdee, built using the script in oppdateringsskript/jdee.sh
+(add-to-list 'load-path "/usr/local/jdee/lisp")
+(load "jde")
 
