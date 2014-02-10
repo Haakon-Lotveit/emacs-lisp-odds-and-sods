@@ -16,9 +16,14 @@
 (setq visible-bell 1)
 (transient-mark-mode 1) ; just in case someone turns this off somewhere before init.el is loaded
 (show-paren-mode 1)
+(require 'iso-transl) ; Fixes dead keys.
 
 ;; Legg til repoer til ELPA
 (defvar package-archives ()) ; Aner ikke hvorfor denne trengs
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
+;; Aliaser
+(defalias 'rs 'replace-string)
+(defalias 'rre 'replace-regexp)
