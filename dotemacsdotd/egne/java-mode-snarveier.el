@@ -52,7 +52,7 @@
              ;; Variabler: Rediger disse for å endre på enkel oppførsel
              (defvar java-author-name "Haakon Løtveit")
              
-	     ;; Printing shortcuts
+	     ;; Printing shortcuts - should all go to YASnippets
 	     (defun java-printf-statement ()
 	       "Inserts System.out.printf(); at the cursor position, and moves cursor inside the parens"
 	       (interactive)
