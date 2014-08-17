@@ -4,12 +4,12 @@
 (global-linum-mode 1)
 
 ;; Different stuff I've written myself
-(add-to-list 'load-path "~/emacs-lisp-odds-and-sods/dotemacsdotd/egne")
+(add-to-list 'load-path "~/.emacs.d/egne")
 (load-library "init-egne")
 
 ;; Stuff other people have written that I've loaded.
 ;; Also, libraries that are not installed via the package manager
-(add-to-list 'load-path "~/emacs-lisp-odds-and-sods/dotemacsdotd/tredjeparts")
+(add-to-list 'load-path "~/.emacs.d/tredjeparts")
 (load-library "init-3rdparty")
 
 (setq inhibit-splash-screen 't)
