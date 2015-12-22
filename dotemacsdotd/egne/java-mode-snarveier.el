@@ -3,25 +3,29 @@
 ;; Mye her vil bli flyttet til YASnippet snutter.
 ;; funksjon        snarvei
 ;;
+;; Move to YASNIPPET
 ;; print statements:
 ;; out.printf      C-c C-p (f)
 ;; out.prinln      C-c C-p (l)
 ;; out.print       C-c C-p (p)
 ;;
+;; Move to YASNIPPET
 ;; flow statements
 ;; if(){}          C-c (i)
 ;; else{}          C-c (e)
 ;;
+;; Move to YASNIPPET
 ;; loop statements
 ;; while           C-c C-l (w)
 ;; do-while        C-c C-l (d)
 ;; for             C-c C-l (f)
 ;;
+;; These three are fine.
 ;; code structure 
 ;; open-codeblock C-c (j)
 ;; close -"-      C-c (k)
 ;;
-;; new classes (Deprecated, will be moved to YASnippet snippets instead.)
+;; new classes (Deprecated, should be methods for creating new files instead).
 ;; class          aliased to "cs"
 ;; private class  aliased to "prics"
 ;; public class   aliased to "pucs"
@@ -75,17 +79,24 @@
 	       (backward-char 2))
 
 	     ;; Control flow shortcuts
-	     (defun java-for-loop-statement (condition)
+	     (defun java-for-loop-statement ()
 	       "Inserts a basic for loop structure"
-	       (interactive "sCondition: ")
-	       (insert "for(" condition ")")
-	       (java-codeblock))
+	       (interactive)
+	       (indent-according-to-mode)
+	       (insert "for()")
+	       (java-codeblock)
+	       (previous-line)
+	       (move-end-of-line nil)
+	       (backward-char 3))
 
 	     (defun java-while-loop-statement (condition)
 	       "Inserts a basic while loop structure"
-	       (interactive "sCondition: ")
-	       (insert "while(" condition ")")
-	       (java-codeblock))
+	       (interactive)
+	       (insert "while()")
+	       (java-codeblock) 
+	       (previous-line)
+	       (move-end-of-line nil)
+	       (backward-char 3))
 
 	     (defun java-do-while-loop-statement (condition)
 	       "Inserts a basic do-while loop structure"
@@ -104,6 +115,7 @@
 	     (defun java-codeblock ()
 	       "gives you a new codeblock, at cursor, and puts you in the middle of it."
 	       (interactive)
+	       (just-one-space)
 	       (insert "{")
 	       (indent-according-to-mode)
 	       (newline 2)
