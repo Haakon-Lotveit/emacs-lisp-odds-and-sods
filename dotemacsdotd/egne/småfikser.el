@@ -1,3 +1,6 @@
+;; Setter opp et tema
+(load-theme 'wombat t)
+
 ;; Fra Steve Yegge's effective emacs
 (global-set-key "\C-x\C-m" 'execute-extended-command)
 (global-set-key "\C-c\C-m" 'execute-extended-command)
