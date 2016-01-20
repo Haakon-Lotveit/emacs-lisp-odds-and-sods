@@ -1,6 +1,5 @@
 ;; Laster inn mine egne biblioteker
 
-(load-library "paren-skip")
 (load-library "småfikser")
 (load-library "font-settings")
 (load-library "java-mode-snarveier")
