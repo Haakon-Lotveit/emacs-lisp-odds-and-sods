@@ -1,0 +1,36 @@
+This is an opinionated major mode for renpy.
+At the most basic level it provides most of the basic things you'd expect from an emacs mode for renpy code, but not indenting. (It's on my todo list)
+
+However, it is opinionated in that it follows some conventions quite stubbornly. This is done to make it easier to manage the code, but it is merely my opinion on how to do this. These conventions make it possible to provide you with some goodies. Below is an explanation on these goodies and the conventions they adhere to:
+
+Importing images:
+It's a pain to manually copy over images into your project by hand and then writing image name name "path/to/image.png" by hand. It's also easier to do things like dumping them all in your game folder, instead of putting them in a separate subfolder. It's also less writing that way.
+That's a bad thing, because it makes your folders messy, and it makes it harder to see where your sprites are and what sprites you have.
+The perfect thing to do would be to have a subfolder for images, called for example, "images", in which you could store images. However, you really shouldn't stop there either. Backgrounds should go in one folder, and each character should have their own folder too. That way if you want to show jack laughing, the sprite would be in "images/jack/smiling.png" for example.
+
+Now that's all well and good, but life's too short to make all those folders by hand, then moving the sprites over (by hand) and then giving the sprites the correct names, and then writing the whole thing into your renpy file.
+
+Especially since emacs can figure out this stuff for you, which is why renpy-mode provides renpy-import-image.
+
+If you want to import an image into your renpy code, you can call renpy-import-image, either with M-x renpy-import-image or C-c i/C-c C-i.
+This will first prompt you for the image file you want. Use autocompletion to navigate to the file and hit enter.
+Then you will be asked to give it a name. This is the whole name.
+As an example the name of the image here:
+image jack smiling "image/jack/smiling.png" is "jack smiling"
+So if you want to import something like say "~/Downloads/jack-the-rascal/sprites/jack-the-rascal-smiling.png" and use the image with "show jack smiling" you'd write jack smiling here.
+
+And then the image will be copied to the appropriate folder (the original image will not be changed, deleted or otherwise touched), and the correct import line will be added.
+
+This is not perfect, since you cannot grab a whole directory of images and name them and have them imported one by one, but you know, future releases... ^_^
+
+There are more goodies on the way, like:
+ - Integrating a colour picker for things like characters
+ - looking up images so you can view them in emacs
+ - shortcut keys for common actions (C-c s for inserting show, C-c e for scene, etc.)
+ - A proper manual for this mode
+ - creating image databases you can import from in bulk (so you can add all the jake sprites to it, and then import it in bulk for your projects)
+ - commands for dealing with music and videos
+ - commands for dealing with more of the details around text.
+ - ... and more!
+
+No really, this will be great.

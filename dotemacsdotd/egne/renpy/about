@@ -1,0 +1,10 @@
+renpy-mode is made by Haakon Løtveit, and is not released yet.
+This is pretty much a pre-alpha, available under the GPL-v3+ license.
+If you like it, then that makes me happy.
+
+Notice that nothing here is the way it's supposed to be:
+The readme is a mess, there are only a few helpful functions, there is no automated indentation that works, etc. This will be changed as I gain more experience with Ren'Py and figure out what I want to do with it.
+
+Things like hide/show are obvious candidates, but I'd like to add a proper parser first that lets me know what legal arguments to those commands would be, so that I could give better autocompletion.
+
+There's also things like it being a pain to import characters one at a time if you're like me and want to make a bunch of smaller games. It takes a while even with import-image. So something like an asset database that emacs could talk to would be nice to have.
