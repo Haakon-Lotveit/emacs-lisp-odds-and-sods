@@ -20,8 +20,10 @@
 (ac-config-default)
 
 ;; Adds wc-mode
-(add-to-list 'load-path "~/emacs-lisp-odds-and-sods/dotemacsdotd/tredjeparts/wc-mode/")
+(add-to-list 'load-path "~/.emacs.d/tredjeparts/wc-mode/")
 (load "wc-mode")
+
+
 ;; Extended Backus-Naur Form mode
 ;; From https://github.com/jeramey/ebnf-mode
 (add-to-list 'load-path "~/.emacs.d/tredjeparts/ebnf-mode")
@@ -32,12 +34,16 @@
 (add-to-list 'load-path "~/.emacs.d/tredjeparts/csv-mode")
 (load "csv-mode")
  
-
-;; Adds jdee, built using the script in oppdateringsskript/jdee.sh
-;(add-to-list 'load-path "/usr/local/jdee/lisp")
-;(load "jde")
-
 ;; Adds zencoding minor mode
-(add-to-list 'load-path "~/emacs-lisp-odds-and-sods/dotemacsdotd/tredjeparts/zencoding")
-(require 'zencoding-mode)
-(add-hook 'sgml-mode-hook 'zencoding-mode)
+(add-to-list 'load-path "~/.emacs.d/tredjeparts/emmet-mode")
+(require 'emmet-mode)
+
+(add-hook 'sgml-mode-hook 'emmet-mode)
+
+<<<<<<< HEAD
+=======
+;; Adds palette.el
+(add-to-list 'load-path "~/.emacs.d/tredjeparts/palette")
+(require 'hexrgb)
+(require 'palette)
+>>>>>>> f8bb38f60006423ceefab041c0c9289fda123a9f

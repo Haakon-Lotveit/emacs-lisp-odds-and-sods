@@ -40,3 +40,8 @@
 
 (add-hook 'sgml-mode-hook 'emmet-mode)
 
+;; Adds palette.el
+(add-to-list 'load-path "~/.emacs.d/tredjeparts/palette")
+(require 'hexrgb)
+(require 'palette)
+
