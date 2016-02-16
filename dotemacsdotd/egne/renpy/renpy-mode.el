@@ -1,3 +1,5 @@
+(load-library "resource-db.el")
+
 (defvar renpy-mode-hook nil)
 
 (defun renpy-scene ()
@@ -51,6 +53,8 @@
     (define-key map (kbd "M-+") 'renpy-remove-indentation)
     (define-key map (kbd "C-c i") 'renpy-import-image)
     (define-key map (kbd "C-c C-i") 'renpy-import-image)
+    (define-key map (kbd "C-c d")   'renpy-assets-import-image)
+    (define-key map (kbd "C-c C-d") 'renpy-assets-import-image)
     (define-key map (kbd "C-c e") 'renpy-scene)
     (define-key map (kbd "C-C C-e") 'renpy-scene)
     (define-key map (kbd "C-c s") 'renpy-show)
