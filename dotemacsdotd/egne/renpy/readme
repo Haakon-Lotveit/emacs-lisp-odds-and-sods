@@ -1,34 +1,74 @@
 This is an opinionated major mode for renpy.
-At the most basic level it provides most of the basic things you'd expect from an emacs mode for renpy code, but not indenting. (It's on my todo list)
+At the most basic level it provides most of the basic things you'd expect from an emacs mode for renpy code, and some extras.
+(Although automated indenting is not done yet)
 
+The mode is not at all done yet, and this documentation is also a work in progress.
+Therefore it is not yet well structured, and may contain som old data.
+
+Here are some hotkeys:
+ - C-+ Increase indentation by prepending the line with 4 spaces
+ - M-+ Decrease indentation by removing 4 trailing spaces (or a tab)
+ - C-c l or C-c C-l List all the characters that the asset manager knows about.
+ - C-c i or C-c C-i Import a named character at point, provided that the images are not already imported, and the asset manager knows about that name.
+ - C-c r or C-c C-r Reload the asset-store, creating new indexes of images (and later video and audio files as well)
+ - C-c a or C-c C-a Adds an image to asset store with the given name.
+ - C-c e or C-c C-e Import every image that the asset store knows about into the game at point. This will generate characters too. So if you have backgrounds in the asset store, there might be a character called background, bg or what have you.
+ - C-c f or C-c C-f Set the asset store location. This is useful if you have made a database for a specific project and want to grab everything from it quickly. (C-c f to set it, then C-c e to import everything.)
+ - C-c p or C-c C-p find-file-at-point This is a built-in emacs function that opens the file you have your cursor on. Really useful for checking that the image file is what you think it is.
+
+There are some hotkeys missing:
+ - insert "show ", "hide ", "scene "
+
+These will be added in later.
+
+Some functions are in need of a small refactoring:
+ - The insert commands.
+ - C-c a 
 However, it is opinionated in that it follows some conventions quite stubbornly. This is done to make it easier to manage the code, but it is merely my opinion on how to do this. These conventions make it possible to provide you with some goodies. Below is an explanation on these goodies and the conventions they adhere to:
 
-Importing images:
-It's a pain to manually copy over images into your project by hand and then writing image name name "path/to/image.png" by hand. It's also easier to do things like dumping them all in your game folder, instead of putting them in a separate subfolder. It's also less writing that way.
-That's a bad thing, because it makes your folders messy, and it makes it harder to see where your sprites are and what sprites you have.
-The perfect thing to do would be to have a subfolder for images, called for example, "images", in which you could store images. However, you really shouldn't stop there either. Backgrounds should go in one folder, and each character should have their own folder too. That way if you want to show jack laughing, the sprite would be in "images/jack/smiling.png" for example.
+Why the asset store kicks ass:
+So this is an opinionated mode, as I've said earlier. And one of the opinions is that you the user should not have to enter in boring details that the computer can do for you.
+You should spend your time doing the interesting bits, like writing dialogue, seeing how different scenes look and so on. The fun, interesting and hard parts that you learn from.
+Importing assets and images into your game manually is none of these things. Not only is it boring and easy, but it is also error prone, because you only have to misspell one singular character to make it stop working.
+And worse than that, having good habits, like putting things in subfolders that makes sense, which you can use to easily see what is where, is harder than just copying everything into the game folder and importing from there.
 
-Now that's all well and good, but life's too short to make all those folders by hand, then moving the sprites over (by hand) and then giving the sprites the correct names, and then writing the whole thing into your renpy file.
+This is bad, because you're not only being forced to do busywork (even if its only at the beginning of the project), but you're being punished for good habits, and that's unforgivable.
 
-Especially since emacs can figure out this stuff for you, which is why renpy-mode provides renpy-import-image.
+It would be far better if you could simply tell emacs what images you want, and then have emacs do all that boring busywork for you.
 
-If you want to import an image into your renpy code, you can call renpy-import-image, either with M-x renpy-import-image or C-c i/C-c C-i.
-This will first prompt you for the image file you want. Use autocompletion to navigate to the file and hit enter.
-Then you will be asked to give it a name. This is the whole name.
-As an example the name of the image here:
-image jack smiling "image/jack/smiling.png" is "jack smiling"
-So if you want to import something like say "~/Downloads/jack-the-rascal/sprites/jack-the-rascal-smiling.png" and use the image with "show jack smiling" you'd write jack smiling here.
+Therefore, the idea of a database you could ask for assets from seems like a reasonable request from developers. Your time is limited, as is your patience and tolerance for boredom.
+Instead of writing this by hand:
+# Character: peter
+image peter angry = "images/peter/angry.png"
+image peter glad = "images/peter/glad.png"
+image peter neutral = "images/peter/neutral.png"
+image peter smile = "images/peter/smile.png"
+image peter suspicious = "images/peter/suspicious.png"
 
-And then the image will be copied to the appropriate folder (the original image will not be changed, deleted or otherwise touched), and the correct import line will be added.
+And then labouriously copy the images into the correct folders, and rename them to the correct name. Wouldn't it be better to tell emacs about where all your sprites live, and what they're called once, and then be able to ask emacs to import them for you forever?
+Now, instead of having to write where the files are, you just have to put them in a folder and name the folders in a specific way, and you have an asset store. There's also a command that moves images to the store for you. You call it (C-c a) point emacs to the image in question, tell it what its full name is, and it will be added to the database automatically, and can then be imported just like any other image.
 
-This is not perfect, since you cannot grab a whole directory of images and name them and have them imported one by one, but you know, future releases... ^_^
+This makes your job of handling your assets easier. This makes it less tedious to take care of assets, since they're stored in a structured easy-to-understand way automatically.
+And if you're the artist and you don't use Emacs, don't worry. You can do this by hand when you export your sprites, and here's how easy it is:
+
+Step one: Make a folder for all your assets. "renpy-assets" is a good for example.
+Step two: Make a folder in that folder for images. It has to be called "images".
+Step three: Every part of the name needs its own folder. For instance, imagine you have an image that would be imported as "fifi dress happy".
+     	    In that case, you have to make a folder called "fifi" (by hand, but since you likely have more fifis you don't have to do this for every image.).
+	    In that folder you make a new folder called "dress". (Since you likely have more expressions per costume this isn't that bad either.
+	    If the name was longer, you could continue like that until you got to the last part. However, most sprites don't have many names. (Hence why this convention was chosen.)
+	    However, in our case, we're at the last part of the name, "happy". So you should save the image as "happy.png"
+Step four: That's it! You're done. You don't have to use any special programs or edit any text files or anything like that. Just save the images using this rule, and emacs will find it and handle it for the writers.
+     	   There is no step four. ^_^
+
+See? There's nothing to it. And this way you cannot argue over how to store or name your sprites, because the system demands that you do it in a certain way. So less arguments over trivial things too.
+
+If your artists does it that way, then your artists are awesome. Especially if the resources are available on some shared resource, like a dropbox folder. Then all you need to do is to use C-c f to point emacs to the assets, and you can use them right away.
 
 There are more goodies on the way, like:
  - Integrating a colour picker for things like characters
- - looking up images so you can view them in emacs
  - shortcut keys for common actions (C-c s for inserting show, C-c e for scene, etc.)
  - A proper manual for this mode
- - creating image databases you can import from in bulk (so you can add all the jake sprites to it, and then import it in bulk for your projects)
  - commands for dealing with music and videos
  - commands for dealing with more of the details around text.
  - ... and more!

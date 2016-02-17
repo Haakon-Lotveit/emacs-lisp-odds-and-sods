@@ -1,12 +1,14 @@
-(require 'cl-lib)
-
 (defvar renpy-asset-store "~/assets-renpy")
 
-;; This is a placeholder var. It will be refactored to actually discover what resources are available
 (defvar renpy-assets (make-hash-table :test 'equal))
 
-;; This function is finished, and works.
-(defun renpy-assets-import-image (image-file full-name)
+(defun renpy-asset-set-store (directory)
+  (interactive "fWhere should renpy-asset-store look for images? ")
+  (setf renpy-asset-store directory)
+  (renpy-asset-discover-image-assets))
+
+
+(defun renpy-asset-add-image (image-file full-name)
   "Imports the image specificed by `image-file' into the asset store in a way consistent with `full-name', which is how this specific image would be imported into your project. So for example the line\nimage anna dress happy = \"images/anna/dress/happy.png\" would have the `full-name' of \"anna dress happy\"."
   (interactive "fImage file to import: \nsThe full name of the image: ")
   (let* ((names (split-string full-name))
@@ -22,14 +24,14 @@
 	 (import-file-to (format "%s/%s" new-path filename)))
     (make-directory new-path t)
     (copy-file image-file import-file-to nil)
-    (message "Imported image file %s\nNew name: %s" image-file import-file-to)
-    ;; TODO Tell the system to discover the new file
-    ))
+    (messange "Imported image file %s\nNew name: %s" image-file import-file-to)
+    (discover-image-assets)))
 
 ;; The list of usable file formats is taken from  http://www.renpy.org/wiki/renpy/Why_Ren'Py%3F 
 (defun file-image-p (file)
-       (member (file-name-extension file nil)
-	       '("jpg" "jpeg" "bmp" "png" "gif")))
+  "Returns true if the file is one of the formats supported by Ren'Py"
+  (member (file-name-extension file nil)
+	  '("jpg" "jpeg" "bmp" "png" "gif")))
 
 (defun ensure-get-character (character)
   "This will return the hashmap with all the images that can be imported for this character.\nIf it does not exist, it will be created as an empty hashmap."
@@ -50,16 +52,15 @@
       (message "Created image for \"%s\" with name \"%s\" for file %s"
 	       character-name full-name file))))
 
-(defun discover-image-assets-recurse (dir)
+(defun renpy-asset-discover-image-assets-recurse (dir)
   (let ((files (cl-remove-if (lambda (str)
 			       (or (equal "."  str)
 				   (equal ".." str)))
 			     (directory-files dir))))
-    (message "%s" files)
     (mapcar (lambda (file)
 	      (cond
 	       ((file-directory-p (format "%s/%s" dir file))
-		(discover-image-assets-recurse (format "%s/%s" dir file)))
+		(renpy-asset-discover-image-assets-recurse (format "%s/%s" dir file)))
 	       ((file-image-p (format "%s/%s" dir file))
 		(make-entry-for-file (format "%s/%s" dir file)))
 	       ('otherwise
@@ -67,30 +68,72 @@
 	    files)))
 
 
-(defun discover-image-assets ()
+(defun renpy-asset-discover-image-assets () 
   "Looks in the directory specified by `renpy-asset-store' and builds a database out of the images in the folders and subfolders"
-  (discover-image-assets-recurse (format "%s/%s" renpy-asset-store "images")))
-
-(discover-image-assets)
-	    
-(defun renpy-assets-list-characters ()
   (interactive)
+  (clrhash renpy-assets)
+  (renpy-asset-discover-image-assets-recurse (format "%s/%s" renpy-asset-store "images")))
+
+(defun renpy-asset-print-characters ()
+  "print all characters that the asset database knows about in a user friendly manner"
+  (interactive)
+  (message "Characters: %s" (mapconcat 'identity (renpy-asset-list-characters) ", ")))
+
+(defun renpy-asset-list-characters ()
+  "Returns a list of all the characters that the asset database knows about"
   (let ((output nil))
     (maphash (lambda (key val)
 	       (push key output))
 	     renpy-assets)
     output))
 
-(defun renpy-assets-contains (character)
+(defun renpy-asset-import-image-resource (name)
+  "Inserts all the images for the character that the database knows about.\nNotice that bg or background is often used for backgrounds, and thus you can import those images too."
   (interactive "sCharacter: ")
-  (gethash character renpy-assets nil))
-
-
-(defun import-image-resource (name)
-  (interactive "sName (only lucy works now, since we're cheating): ")
+  (move-end-of-line nil)
+  (insert (format "\n\n# Character: %s" name))
   (maphash (lambda (key value)
 	     (renpy-import-image value key))
 	   (gethash name renpy-assets)))
 
-(import-image-resource "fifi")
-(provide 'renpy-asset-database)
+(defun renpy-import-image (image name)
+  "Imports an image into your project at the next line"
+  (interactive "fImage file you wish to import: \nsName of this image: ")
+  (let* ((names (split-string name))
+	 (paths `("images" . ,(butlast names)))
+	 (filename (format "%s.%s"
+			   (car (last names))
+			   (file-name-extension image)))
+	 (new-path (mapconcat 'identity paths "/"))
+	 (import-name (format "%s/%s" new-path filename))
+	 (current-path (file-name-directory (buffer-file-name)))
+	 (destination (format "%s%s" current-path import-name)))
+    (make-directory (file-name-directory destination) t)
+    (copy-file image destination nil)
+    (insert (format "\nimage %s = \"%s\"" name import-name))))
+
+(defun renpy-asset-generate-character (character colour)
+  "generates a character, for example 'define fifi = Character(\"Fifi\" 363636)'"
+  (interactive "sCharacter name: \nsColour: ")
+  (move-end-of-line nil)
+  (insert (format "\ndefine %s = Character('%s', color=\"%s\")" character (capitalize character) colour)))
+
+(defun renpy-asset-import-every-image ()
+  "Inserts all the sprites that the database knows about."
+  (interactive)
+  (move-end-of-line nil)
+  (insert "\n\n#########################################")
+  (insert   "\n# All character sprites and backgrounds #")
+  (insert   "\n#########################################")
+  (mapcar 'renpy-asset-import-image-resource
+	  (renpy-asset-list-characters))
+  (insert "\n# END OF SPRITES\n")
+  (insert "\n\n# Characters used by the game")
+  (mapcar (lambda (char)
+	    (renpy-asset-generate-character char "#333333"))
+	  (renpy-asset-list-characters))
+  (insert "\n"))
+
+(renpy-asset-discover-image-assets)
+
+(provide 'renpy-asset-store)

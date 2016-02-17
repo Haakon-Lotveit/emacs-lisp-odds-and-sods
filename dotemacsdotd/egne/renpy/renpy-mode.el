@@ -1,34 +1,21 @@
+(require 'cl-lib)
+
 (load-library "resource-db.el")
+(require 'renpy-asset-store)
 
 (defvar renpy-mode-hook nil)
 
 (defun renpy-scene ()
   (interactive)
-  (insert "scene"))
+  (insert "scene "))
 
 (defun renpy-show ()
   (interactive)
-  (insert "show"))
+  (insert "show "))
 
 (defun renpy-hide ()
   (interactive)
-  (insert "hide"))
-
-(defun renpy-import-image (image name)
-  "Imports an image into your project at the next line"
-  (interactive "fImage file you wish to import: \nsName of this image: ")
-  (let* ((names (split-string name))
-	 (paths `("images" . ,(butlast names)))
-	 (filename (format "%s.%s"
-			   (car (last names))
-			   (file-name-extension image)))
-	 (new-path (mapconcat 'identity paths "/"))
-	 (import-name (format "%s/%s" new-path filename))
-	 (current-path (file-name-directory (buffer-file-name)))
-	 (destination (format "%s%s" current-path import-name)))
-    (make-directory (file-name-directory destination) t)
-    (copy-file image destination nil)
-    (insert (format "\nimage %s = \"%s\"" name import-name))))
+  (insert "hide "))
 
 (defun renpy-add-indentation ()
   (interactive)
@@ -51,16 +38,22 @@
     (define-key map "\C-j" 'newline-and-indent)
     (define-key map (kbd "C-+") 'renpy-add-indentation)
     (define-key map (kbd "M-+") 'renpy-remove-indentation)
-    (define-key map (kbd "C-c i") 'renpy-import-image)
-    (define-key map (kbd "C-c C-i") 'renpy-import-image)
-    (define-key map (kbd "C-c d")   'renpy-assets-import-image)
-    (define-key map (kbd "C-c C-d") 'renpy-assets-import-image)
-    (define-key map (kbd "C-c e") 'renpy-scene)
-    (define-key map (kbd "C-C C-e") 'renpy-scene)
-    (define-key map (kbd "C-c s") 'renpy-show)
-    (define-key map (kbd "C-C C-s") 'renpy-show)
-    (define-key map (kbd "C-c h") 'renpy-hide)
-    (define-key map (kbd "C-C C-h") 'renpy-hide)
+    ;; Goodies from the renpy-asset-store
+    (define-key map (kbd "C-c i")   'renpy-asset-import-image-resource)
+    (define-key map (kbd "C-c C-i") 'renpy-asset-import-image-resource)
+    (define-key map (kbd "C-c l")   'renpy-asset-print-characters)
+    (define-key map (kbd "C-c C-l") 'renpy-asset-print-characters)
+    (define-key map (kbd "C-c r")   'renpy-asset-discover-image-assets)
+    (define-key map (kbd "C-c C-r") 'renpy-asset-discover-image-assets)
+    (define-key map (kbd "C-c a")   'renpy-asset-add-image)
+    (define-key map (kbd "C-c C-a") 'renpy-asset-add-image)
+    (define-key map (kbd "C-c e")   'renpy-asset-import-every-image)
+    (define-key map (kbd "C-c C-e") 'renpy-asset-import-every-image)
+    (define-key map (kbd "C-c f")   'renpy-asset-set-store)
+    (define-key map (kbd "C-c C-f") 'renpy-asset-set-store)
+    ;; Very useful features in general
+    (define-key map (kbd "C-c p")   'find-file-at-point)
+    (define-key map (kbd "C-c C-p") 'find-file-at-point)
     map)
   "Keymap for Renpy major mode")
 
