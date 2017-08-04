@@ -32,6 +32,11 @@ pushd emmet-mode > /dev/null
 git pull > /dev/null
 popd > /dev/null
 
+echo "Updating web-mode"
+pushd web-mode > /dev/null
+git pull > /dev/null
+popd > /dev/null
+
 echo "DONE"
 
 pushd popd > /dev/null
