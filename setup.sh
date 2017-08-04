@@ -18,4 +18,6 @@ git clone https://github.com/bnbeckwith/wc-mode
 
 git clone https://github.com/smihica/emmet-mode
 
+git clone https://github.com/fxbois/web-mode
+
 popd > /dev/null
