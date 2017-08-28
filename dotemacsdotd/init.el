@@ -1,18 +1,7 @@
 ;;Cleaned up init.el file for Haakon Løtveit, March 2012
 
 (require 'cl)
-(require 'package)
 (global-linum-mode 1)
-
-;; Sets up the package manager to use melpa.
-(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                    (not (gnutls-available-p))))
-       (url (concat (if no-ssl "http" "https") "://melpa.org/packages/")))
-  (add-to-list 'package-archives (cons "melpa" url) t))
-(when (< emacs-major-version 24)
-  ;; For important compatibility libraries like cl-lib
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
-(package-initialize) ;; You might already have this line
 
 ;; Different stuff I've written myself
 (add-to-list 'load-path "~/.emacs.d/egne")
@@ -24,7 +13,7 @@
 (load-library "init-3rdparty")
 
 (setq inhibit-splash-screen 't)
-					;(server-start)
+;(server-start)
 
 ;; Removes the *ESS* buffer after startup.
 (if (get-buffer "*ESS*") (kill-buffer "*ESS*"))

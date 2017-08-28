@@ -2,6 +2,8 @@
 
 pushd dotemacsdotd/tredjeparts/ > /dev/null
 
+pwd
+
 echo "Updating auto-complete"
 pushd auto-complete > /dev/null
 git pull > /dev/null
@@ -14,6 +16,11 @@ popd > /dev/null
 
 echo "Updating popup-el"
 pushd popup-el > /dev/null
+git pull > /dev/null
+popd > /dev/null
+
+echo "Updating emacs-async"
+pushd emacs-async > /dev/null
 git pull > /dev/null
 popd > /dev/null
 
@@ -37,6 +44,16 @@ pushd web-mode > /dev/null
 git pull > /dev/null
 popd > /dev/null
 
-echo "DONE"
+echo "Updating helm"
+pushd helm > /dev/null
+git pull > /dev/null
+popd > /dev/null
 
-pushd popd > /dev/null
+echo "Updating ensime (emacs-scala-mode)"
+pushd emacs-scala-mode > /dev/null
+git pull > /dev/null
+popd > /dev/null
+
+echo "Source s now updated. Remember to run buildfiles for sources that needs to be built"
+
+popd > /dev/null
